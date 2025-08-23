@@ -23,7 +23,7 @@ const searchProduct = debounce((e) => {
 <template>
     <div class="Test" id="main-content">
         <ion-header>
-            <ion-toolbar>
+            <ion-toolbar class="!pt-[28px]">
                 <ion-buttons slot="start">
                     <ion-menu-button></ion-menu-button>
                 </ion-buttons>

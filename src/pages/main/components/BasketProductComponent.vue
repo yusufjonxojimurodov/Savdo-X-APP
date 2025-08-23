@@ -45,18 +45,18 @@ function setProductId(id) {
         <ion-spinner name="crescent"></ion-spinner>
     </div>
     <div class="!flex !justify-between !oductSitems-center !flex-wrap w-full">
-        <ion-card @click="setProductId(product._id)" v-for="product in productStore.basketProducts"
+        <ion-card @click="setProductId(product.product._id)" v-for="product in productStore.basketProducts"
             :key="product.product._id">
-            <a-image :src="product.product.image" alt="Mahsulot rasmi"
+            <a-image @click.stop :src="product.product.image" alt="Mahsulot rasmi"
                 class="w-full !h-[100px] transition duration-500 object-contain" />
 
-            <a-popconfirm ok-text="Ha" cancel-text="Yo'q" @confirm="deleteProduct(product._id)"
+            <a-popconfirm @click.stop ok-text="Ha" cancel-text="Yo'q" @confirm="deleteProduct(product._id)"
                 title="Savatchadan o'chirmoqchimisiz ?">
-                <icon-cansel class="absolute right-2 top-2" />
+                <icon-cansel class="absolute right-2 top-2 border-none outline-none" />
             </a-popconfirm>
 
             <div class="flex justify-start items-start flex-col gap-2">
-                <p class="text-[16px] text-[#3e3e3e]">{{ product.product.name.slice(0, 20) }}</p>
+                <p class="text-[14px] text-[#3e3e3e]">{{ product.product.name }}</p>
                 <div class="flex justify-center items-center gap-2">
                     <div class="flex justify-center items-center gap-1">
                         <quantitiy-component @click.stop v-model="quantities[product._id]"

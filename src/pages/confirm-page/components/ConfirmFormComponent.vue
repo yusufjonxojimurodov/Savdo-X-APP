@@ -1,9 +1,18 @@
 <script setup>
 import { onMounted, ref, nextTick } from "vue"
 import L from "leaflet"
+import "leaflet/dist/leaflet.css"
 import { useRoute, useRouter } from "vue-router"
 import useUser from "../../../stores/user.pinia"
 import useProducts from "../../../stores/products.pinia"
+
+// 🔧 Leaflet marker ikonlarini fix qilish (Vue + Vite uchun majburiy)
+delete L.Icon.Default.prototype._getIconUrl
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: new URL("leaflet/dist/images/marker-icon-2x.png", import.meta.url).href,
+    iconUrl: new URL("leaflet/dist/images/marker-icon.png", import.meta.url).href,
+    shadowUrl: new URL("leaflet/dist/images/marker-shadow.png", import.meta.url).href,
+})
 
 const router = useRouter()
 const route = useRoute()
@@ -21,12 +30,14 @@ const quantity = route.query.quantity || 1
 onMounted(async () => {
     await nextTick()
 
+    // 📍 Xarita yaratish
     map.value = L.map("map").setView([41.2995, 69.2401], 12)
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "© OpenStreetMap contributors"
     }).addTo(map.value)
     map.value.invalidateSize()
 
+    // 📌 User location olish
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (pos) => {
@@ -38,12 +49,21 @@ onMounted(async () => {
 
                 selectedLat.value = lat
                 selectedLng.value = lng
-                console.log("User koordinatalari:", lat, lng)
+                console.log("✅ User koordinatalari:", lat, lng)
             },
-            (err) => console.error("Joylashuv aniqlanmadi:", err)
+            (err) => {
+                alert("Joylashuvni olishda xatolik: " + err.message)
+                console.error("❌ Joylashuv aniqlanmadi:", err)
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
         )
     }
 
+    // 📌 Xarita bosilganda marker qo‘yish
     map.value.on("click", (e) => {
         if (marker.value) map.value.removeLayer(marker.value)
         marker.value = L.marker(e.latlng).addTo(map.value)
@@ -51,10 +71,11 @@ onMounted(async () => {
         selectedLat.value = e.latlng.lat
         selectedLng.value = e.latlng.lng
 
-        console.log("Tanlangan koordinatalari:", selectedLat.value, selectedLng.value)
+        console.log("🟢 Tanlangan koordinatalar:", selectedLat.value, selectedLng.value)
     })
 })
 
+// 🛒 Buyurtma berish
 async function buySelected() {
     if (!selectedLat.value || !selectedLng.value) {
         alert("Iltimos, marker tanlang!")
@@ -99,8 +120,6 @@ async function buySelected() {
 </template>
 
 <style>
-@import "leaflet/dist/leaflet.css";
-
 #map {
     height: 100%;
     width: 100%;

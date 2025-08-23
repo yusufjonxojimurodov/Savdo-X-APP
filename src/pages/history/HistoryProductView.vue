@@ -22,7 +22,7 @@ onMounted(() => {
             <ion-spinner name="crescent"></ion-spinner>
         </div>
         <ion-header>
-            <ion-toolbar>
+            <ion-toolbar class="!pt-3">
                 <div class="container !mt-2">
                     <div class="flex justify-between items-center w-full">
                         <ion-back-button @click="router.push('/')" mode="ios" type="dark" text="Orqaga"

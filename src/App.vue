@@ -65,7 +65,7 @@ const alertButtons = [
   <ion-app>
     <login-modal-component ref="registerModalRef" />
 
-    <ion-alert v-if="showNoInternet" mode="ios" header="Internet mavjud emas !"
+    <ion-alert mode="ios" header="Internet mavjud emas !"
       message="Ilovadan foydalanish uchun mobil internetni yoqing 😀" :buttons="alertButtons"
       :is-open="showNoInternet" />
 

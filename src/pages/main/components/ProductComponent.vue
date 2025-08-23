@@ -87,7 +87,7 @@ function setProductId(id) {
             <a-image @click.stop :src="product.image" alt="Mahsulot rasmi"
                 class="w-full !h-[100px] transition duration-500 object-contain" />
             <div class="flex justify-start items-start flex-col gap-2">
-                <p class="text-[16px] text-[#3e3e3e]">{{ product.name.slice(0, 20) }}</p>
+                <p class="text-[14px] text-[#3e3e3e]">{{ product.name}}</p>
                 <p class="text-[12px] text-[#3e3e3e]">{{ product.createdBy.userName }}</p>
                 <div class="flex justify-center items-center gap-2">
                     <div class="flex justify-center items-center gap-1">
@@ -204,7 +204,7 @@ ion-segment-button {
 
 @media (max-width: 395px) {
     ion-card {
-        width: 180px;
+        width: 175px;
     }
 
     .left-text {

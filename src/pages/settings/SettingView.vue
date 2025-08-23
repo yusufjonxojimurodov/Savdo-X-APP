@@ -10,7 +10,7 @@ const router = useRouter()
 <template>
     <ion-page>
         <ion-header>
-            <ion-toolbar>
+            <ion-toolbar class="!pt-3">
                 <div class="container !mt-2">
                     <div class="flex justify-between items-center w-full">
                         <ion-back-button @click="router.back()" mode="ios" type="dark" text="Orqaga"
