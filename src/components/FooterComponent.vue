@@ -1,7 +1,7 @@
 <script setup>
 import { IonFooter } from '@ionic/vue';
 
-const appVersion = "v1.2.1";
+const appVersion = "v1.3.4";
 </script>
 
 <template>

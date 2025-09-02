@@ -18,9 +18,6 @@ onMounted(() => {
 
 <template>
     <ion-page>
-        <div v-if="historyStore.loader" class="fixed !bg-black/40 inset-0 flex items-center justify-center z-50">
-            <ion-spinner name="crescent"></ion-spinner>
-        </div>
         <ion-header>
             <ion-toolbar class="!pt-3">
                 <div class="container !mt-2">

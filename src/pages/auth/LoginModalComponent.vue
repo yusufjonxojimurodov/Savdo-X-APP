@@ -2,12 +2,14 @@
 import { ref } from 'vue';
 import { IonModal, IonHeader, IonToolbar, IonButtons, IonContent } from '@ionic/vue';
 import useUser from '../../stores/user.pinia';
+import { useRouter } from 'vue-router';
+import { message } from 'ant-design-vue';
 
 const props = defineProps({
     registerModalRef: Object
 });
 
-const input = ref(null);
+const router = useRouter
 const isOpenLogin = ref(false);
 const formRef = ref("")
 const userStore = useUser()
@@ -35,6 +37,14 @@ async function loginAccaount() {
     }
 }
 
+function changePassword() {
+    message.success("Botga kirib ma'lumotlarni almashtirishingiz mumkin");
+    setTimeout(() => {
+        window.open("https://t.me/savdo_x_bot", "_blank");
+    }, 2000);
+}
+
+
 defineExpose({ open });
 </script>
 
@@ -56,7 +66,10 @@ defineExpose({ open });
                     <a-input-password size="large" v-model:value="loginModel.password" placeholder="Parolingiz" />
                 </a-form-item>
 
-                <div class="flex justify-end items-center gap-2 !mt-[20px]">
+                <div class="flex justify-between items-center gap-2 !mt-[20px]">
+                    <div>
+                        <a-button @click="changePassword" type="text">Parolni bilmaysizmi ?</a-button>
+                    </div>
                     <div class="flex justify-end items-center gap-2">
                         <ion-buttons>
                             <a-button class="!text-white !font-semibold" type="primary" danger @click="cancel">Bekor

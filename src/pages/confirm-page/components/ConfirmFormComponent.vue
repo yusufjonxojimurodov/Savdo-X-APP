@@ -6,7 +6,6 @@ import { useRoute, useRouter } from "vue-router"
 import useUser from "../../../stores/user.pinia"
 import useProducts from "../../../stores/products.pinia"
 
-// 🔧 Leaflet marker ikonlarini fix qilish (Vue + Vite uchun majburiy)
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: new URL("leaflet/dist/images/marker-icon-2x.png", import.meta.url).href,
@@ -30,14 +29,12 @@ const quantity = route.query.quantity || 1
 onMounted(async () => {
     await nextTick()
 
-    // 📍 Xarita yaratish
     map.value = L.map("map").setView([41.2995, 69.2401], 12)
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "© OpenStreetMap contributors"
     }).addTo(map.value)
     map.value.invalidateSize()
 
-    // 📌 User location olish
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (pos) => {
@@ -63,7 +60,6 @@ onMounted(async () => {
         )
     }
 
-    // 📌 Xarita bosilganda marker qo‘yish
     map.value.on("click", (e) => {
         if (marker.value) map.value.removeLayer(marker.value)
         marker.value = L.marker(e.latlng).addTo(map.value)
@@ -75,7 +71,6 @@ onMounted(async () => {
     })
 })
 
-// 🛒 Buyurtma berish
 async function buySelected() {
     if (!selectedLat.value || !selectedLng.value) {
         alert("Iltimos, marker tanlang!")

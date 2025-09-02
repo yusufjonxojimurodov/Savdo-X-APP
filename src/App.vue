@@ -6,7 +6,6 @@ import useSetting from './stores/settings.pinia';
 import { IonApp, IonRouterOutlet, IonAlert } from '@ionic/vue';
 import { App } from '@capacitor/app';
 import { Browser } from '@capacitor/browser';
-import FooterComponent from './components/FooterComponent.vue';
 
 const settingStore = useSetting();
 const userStore = useUser();
@@ -55,7 +54,7 @@ const alertButtons = [
   {
     text: 'Yoqish',
     handler: async () => {
-      await Browser.open({ url: 'app-settings:' });
+      await App.openSettings();
     },
   },
 ];
