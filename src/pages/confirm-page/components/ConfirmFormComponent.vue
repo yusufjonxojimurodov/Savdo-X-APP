@@ -5,6 +5,8 @@ import "leaflet/dist/leaflet.css"
 import { useRoute, useRouter } from "vue-router"
 import useUser from "../../../stores/user.pinia"
 import useProducts from "../../../stores/products.pinia"
+import { IonAlert, IonSpinner } from '@ionic/vue'
+import { alert } from "ionicons/icons"
 
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
@@ -22,6 +24,9 @@ const map = ref(null)
 const marker = ref(null)
 const selectedLat = ref(null)
 const selectedLng = ref(null)
+const loadingLocation = ref(true)
+const showAlert = ref(false)
+const alertMessage = ref("")
 
 const productId = route.query.id
 const quantity = route.query.quantity || 1
@@ -47,9 +52,12 @@ onMounted(async () => {
                 selectedLat.value = lat
                 selectedLng.value = lng
                 console.log("✅ User koordinatalari:", lat, lng)
+                loadingLocation.value = false
             },
             (err) => {
-                alert("Joylashuvni olishda xatolik: " + err.message)
+                loadingLocation.value = false
+                alertMessage.value = "Joylashuvni olishda xatolik: " + err.message
+                showAlert.value = true
                 console.error("❌ Joylashuv aniqlanmadi:", err)
             },
             {
@@ -58,6 +66,10 @@ onMounted(async () => {
                 maximumAge: 0
             }
         )
+    } else {
+        loadingLocation.value = false
+        alertMessage.value = "Brauzer geolocation qo'llab-quvvatlamaydi."
+        showAlert.value = true
     }
 
     map.value.on("click", (e) => {
@@ -66,8 +78,6 @@ onMounted(async () => {
 
         selectedLat.value = e.latlng.lat
         selectedLng.value = e.latlng.lng
-
-        console.log("🟢 Tanlangan koordinatalar:", selectedLat.value, selectedLng.value)
     })
 })
 
@@ -99,11 +109,26 @@ async function buySelected() {
         console.error(err)
     }
 }
+
+const alertButtons = [
+    {
+        text: 'Yopish',
+        role: 'close',
+        handler: () => {
+            router.back()
+        },
+    }
+];
 </script>
 
 <template>
-    <div class="h-[80vh] w-full">
+    <div class="h-[80vh] w-full relative">
         <div id="map"></div>
+
+        <div v-if="loadingLocation"
+            class="absolute top-0 left-0 w-full h-full bg-black/30 flex justify-center items-center z-50">
+            <ion-spinner name="crescent"></ion-spinner>
+        </div>
     </div>
 
     <div class="container !mt-5 !flex justify-end items-center">
@@ -112,6 +137,9 @@ async function buySelected() {
             Tasdiqlash
         </a-button>
     </div>
+
+    <ion-alert mode="ios" header="Internet mavjud emas !" :message="alert" :buttons="alertButtons"
+        :is-open="showNoInternet" />
 </template>
 
 <style>

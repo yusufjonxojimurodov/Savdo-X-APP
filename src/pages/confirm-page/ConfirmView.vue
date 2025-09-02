@@ -21,8 +21,7 @@ async function checkLocation() {
         await Geolocation.getCurrentPosition({ timeout: 5000 });
         showLocationAlert.value = false;
     } catch (err) {
-        console.error("Location error:", err);
-
+ 
         if (err.code === 2) {
             showLocationAlert.value = true;
         } else {

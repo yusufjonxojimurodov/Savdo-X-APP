@@ -58,7 +58,7 @@ function setProductId(id) {
     <banner-component />
     <watches-filter-component />
     <div class="container flex justify-between items-center flex-wrap !mb-[20px]">
-        <template v-if="filterProductStore.loader && segmentValue === 'all'">
+        <template v-if="filterProductStore.loader">
             <ion-card class="!h-[230px]" v-for="n in 6" :key="n">
                 <a-skeleton active>
                     <a-skeleton-image style="width: 100%; height: 100px;" />
